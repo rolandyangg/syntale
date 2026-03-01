@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Card } from "./ui/card";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
@@ -8,6 +8,18 @@ import { Slider } from "./ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Wand2, Mail, Thermometer, Layers, Mic, Type, Globe } from "lucide-react";
 
+// Webhook settings
+const WEBHOOK_URL = "https://hook.us2.make.com/g15aq8oqbqf3a4xw8rgnf4xom6i2ijts";
+const WEBHOOK_API_KEY_HEADER = "x-make-apikey";
+const WEBHOOK_API_KEY = "key";
+
+function generateReelId(): string {
+  const bytes = crypto.getRandomValues(new Uint8Array(16));
+  return Array.from(bytes)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
 interface StoryFormProps {
   onSubmit: (email: string) => void;
 }
@@ -15,22 +27,50 @@ interface StoryFormProps {
 export function StoryForm({ onSubmit }: StoryFormProps) {
   const [storyInput, setStoryInput] = useState("");
   const [email, setEmail] = useState("");
-  const [temperature, setTemperature] = useState([0.7]);
+  const [temperature, setTemperature] = useState([1]);
   const [scenes, setScenes] = useState("3");
   const [voiceType, setVoiceType] = useState("");
   const [fontFamily, setFontFamily] = useState("");
   const [language, setLanguage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isFormValid) return;
+
     setIsLoading(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      setIsLoading(false);
+
+    try {
+      const reelId = generateReelId();
+
+      const response = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          [WEBHOOK_API_KEY_HEADER]: WEBHOOK_API_KEY,
+        },
+        body: JSON.stringify({
+          id: reelId,
+          story: storyInput,
+          email,
+          temperature: temperature[0],
+          scenes: Number(scenes),
+          voiceType,
+          fontFamily,
+          language,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Webhook request failed with status ${response.status}`);
+      }
+
       onSubmit(email);
-    }, 1000);
+    } catch (error) {
+      console.error("Failed to submit story to webhook", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const isFormValid = storyInput.trim() !== "" && email.trim() !== "" && email.includes("@");
