@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { StoryForm } from "./components/StoryForm";
 import { SuccessMessage } from "./components/SuccessMessage";
+import { FinishedReelList } from "./components/FinishedReelList";
 import { Sparkles } from "lucide-react";
 
 export default function App() {
@@ -40,19 +41,22 @@ export default function App() {
               </h1>
             </div>
             <p className="text-center text-slate-400 mt-2">
-              Transform your ideas into captivating Instagram stories
+              Transform your ideas into captivating short form video stories
             </p>
           </div>
         </header>
 
         {/* Main Content */}
         <main className="px-4 py-8">
-          <div className="max-w-4xl mx-auto">
-            {!isSubmitted ? (
-              <StoryForm onSubmit={handleSubmit} />
-            ) : (
-              <SuccessMessage email={userEmail} onCreateAnother={handleCreateAnother} />
-            )}
+          <div className="max-w-4xl mx-auto space-y-8">
+            <div>
+              {!isSubmitted ? (
+                <StoryForm onSubmit={handleSubmit} />
+              ) : (
+                <SuccessMessage email={userEmail} onCreateAnother={handleCreateAnother} />
+              )}
+            </div>
+            <FinishedReelList />
           </div>
         </main>
 

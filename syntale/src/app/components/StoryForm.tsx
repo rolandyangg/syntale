@@ -6,7 +6,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Slider } from "./ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { Wand2, Mail, Film, Thermometer, Layers, Mic, Type, Globe } from "lucide-react";
+import { Wand2, Mail, Thermometer, Layers, Mic, Type, Globe } from "lucide-react";
 
 interface StoryFormProps {
   onSubmit: (email: string) => void;
@@ -17,7 +17,6 @@ export function StoryForm({ onSubmit }: StoryFormProps) {
   const [email, setEmail] = useState("");
   const [temperature, setTemperature] = useState([0.7]);
   const [scenes, setScenes] = useState("3");
-  const [duration, setDuration] = useState([15]);
   const [voiceType, setVoiceType] = useState("");
   const [fontFamily, setFontFamily] = useState("");
   const [language, setLanguage] = useState("");
@@ -110,32 +109,6 @@ export function StoryForm({ onSubmit }: StoryFormProps) {
               <SelectItem value="6" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">6 Scenes</SelectItem>
             </SelectContent>
           </Select>
-        </div>
-
-        {/* Reel Duration */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Film className="w-5 h-5 text-pink-400" />
-              <Label className="text-slate-200">Reel Duration</Label>
-            </div>
-            <span className="text-sm font-mono text-pink-400 bg-pink-500/10 px-3 py-1 rounded-full">
-              {duration[0]}s
-            </span>
-          </div>
-          <Slider
-            value={duration}
-            onValueChange={setDuration}
-            min={5}
-            max={30}
-            step={1}
-            className="[&_[role=slider]]:bg-pink-500 [&_[role=slider]]:border-pink-400"
-          />
-          <div className="flex justify-between text-xs text-slate-500">
-            <span>5s</span>
-            <span>15s</span>
-            <span>30s</span>
-          </div>
         </div>
 
         {/* Voice Type */}
