@@ -1,7 +1,11 @@
 
-  # Syntale story input form
+# Syntale
 
-  This is a code bundle for Syntale story input form. The original project is available at https://www.figma.com/design/lV2QZbaI8PdB0K2p7ZAx9t/Syntale-story-input-form.
+Takes your prompt with some settings and turns it into a tiktok video ;p bleh
+
+Bridging storytellers and content creation!
+
+(please run this locally if you want to try it and don't exhaust all my tokens, im not hosting it online because i dont want ppl to spam and break it)
 
   ## Running the code
 
