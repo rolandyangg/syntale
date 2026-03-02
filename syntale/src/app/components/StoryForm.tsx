@@ -6,10 +6,10 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Slider } from "./ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { Wand2, Mail, Thermometer, Layers, Mic, Type, Globe } from "lucide-react";
+import { Wand2, Mail, Thermometer, Layers, Mic, Type, Globe, Music2 } from "lucide-react";
 
 // Webhook settings
-const WEBHOOK_URL = "https://hook.us2.make.com/g15aq8oqbqf3a4xw8rgnf4xom6i2ijts";
+const WEBHOOK_URL = "https://hook.us2.make.com/cybmyxytqni64dpm548gb8bka42w7sqc";
 const WEBHOOK_API_KEY_HEADER = "x-make-apikey";
 const WEBHOOK_API_KEY = "key";
 
@@ -32,6 +32,7 @@ export function StoryForm({ onSubmit }: StoryFormProps) {
   const [voiceType, setVoiceType] = useState("");
   const [fontFamily, setFontFamily] = useState("");
   const [language, setLanguage] = useState("");
+  const [backgroundMusicUrl, setBackgroundMusicUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -58,6 +59,7 @@ export function StoryForm({ onSubmit }: StoryFormProps) {
           voiceType,
           fontFamily,
           language,
+          backgroundMusicUrl: backgroundMusicUrl.trim(),
         }),
       });
 
@@ -167,13 +169,21 @@ export function StoryForm({ onSubmit }: StoryFormProps) {
               <SelectValue placeholder="Select voice type" />
             </SelectTrigger>
             <SelectContent className="bg-slate-800 border-slate-700">
-              <SelectItem value="male-professional" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Male - Professional</SelectItem>
-              <SelectItem value="male-casual" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Male - Casual</SelectItem>
-              <SelectItem value="male-energetic" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Male - Energetic</SelectItem>
-              <SelectItem value="female-professional" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Female - Professional</SelectItem>
-              <SelectItem value="female-casual" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Female - Casual</SelectItem>
-              <SelectItem value="female-energetic" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Female - Energetic</SelectItem>
-              <SelectItem value="neutral" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Neutral</SelectItem>
+              <SelectItem value="en-US-AvaNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Ava</SelectItem>
+              <SelectItem value="en-US-AndrewNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Andrew</SelectItem>
+              <SelectItem value="en-US-EmmaNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Emma</SelectItem>
+              <SelectItem value="en-US-BrianNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Brian</SelectItem>
+              <SelectItem value="en-US-JennyNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Jenny</SelectItem>
+              <SelectItem value="en-US-GuyNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Guy</SelectItem>
+              <SelectItem value="en-US-AriaNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Aria</SelectItem>
+              <SelectItem value="en-US-DavisNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Davis</SelectItem>
+              <SelectItem value="en-US-NancyNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Nancy</SelectItem>
+              <SelectItem value="en-US-ChristopherNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Christopher</SelectItem>
+              <SelectItem value="en-US-AshleyNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Ashley</SelectItem>
+              <SelectItem value="en-US-EricNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Eric</SelectItem>
+              <SelectItem value="en-US-MichelleNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Michelle</SelectItem>
+              <SelectItem value="en-US-TonyNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Tony</SelectItem>
+              <SelectItem value="en-US-SaraNeural" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Sara</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -194,15 +204,38 @@ export function StoryForm({ onSubmit }: StoryFormProps) {
               <SelectValue placeholder="Select font family" />
             </SelectTrigger>
             <SelectContent className="bg-slate-800 border-slate-700">
-              <SelectItem value="inter" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Inter</SelectItem>
-              <SelectItem value="montserrat" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Montserrat</SelectItem>
-              <SelectItem value="roboto" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Roboto</SelectItem>
-              <SelectItem value="poppins" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Poppins</SelectItem>
-              <SelectItem value="opensans" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Open Sans</SelectItem>
-              <SelectItem value="bebas" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Bebas Neue</SelectItem>
-              <SelectItem value="anton" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Anton</SelectItem>
+              <SelectItem value="Arial" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Arial</SelectItem>
+              <SelectItem value="Arial Bold" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Arial Bold</SelectItem>
+              <SelectItem value="Oswald Bold" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Oswald Bold</SelectItem>
+              <SelectItem value="NotoSans Bold" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">NotoSans Bold</SelectItem>
+              <SelectItem value="Simplified Chinese" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Simplified Chinese</SelectItem>
+              <SelectItem value="Traditional Chinese" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Traditional Chinese</SelectItem>
+              <SelectItem value="Japanese" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Japanese</SelectItem>
+              <SelectItem value="Korean" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Korean</SelectItem>
+              <SelectItem value="Korean Bold" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Korean Bold</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+
+        {/* Background Music URL */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <Music2 className="w-5 h-5 text-rose-400" />
+            <Label htmlFor="backgroundMusic" className="text-slate-200">
+              Background Music URL
+            </Label>
+          </div>
+          <Input
+            id="backgroundMusic"
+            type="url"
+            placeholder="https://example.com/music.mp3"
+            value={backgroundMusicUrl}
+            onChange={(e) => setBackgroundMusicUrl(e.target.value)}
+            className="bg-slate-800/50 border-slate-700/50 text-slate-100 placeholder:text-slate-500 focus:border-rose-500/50 focus:ring-rose-500/20"
+          />
+          <p className="text-xs text-slate-500">
+            Optional: Add a link to background music for your story
+          </p>
         </div>
 
         {/* Language */}
@@ -221,17 +254,17 @@ export function StoryForm({ onSubmit }: StoryFormProps) {
               <SelectValue placeholder="Select language" />
             </SelectTrigger>
             <SelectContent className="bg-slate-800 border-slate-700">
-              <SelectItem value="en" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">English</SelectItem>
-              <SelectItem value="es" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Spanish</SelectItem>
-              <SelectItem value="fr" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">French</SelectItem>
-              <SelectItem value="de" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">German</SelectItem>
-              <SelectItem value="it" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Italian</SelectItem>
-              <SelectItem value="pt" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Portuguese</SelectItem>
-              <SelectItem value="ja" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Japanese</SelectItem>
-              <SelectItem value="ko" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Korean</SelectItem>
-              <SelectItem value="zh" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Chinese</SelectItem>
-              <SelectItem value="ar" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Arabic</SelectItem>
-              <SelectItem value="hi" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Hindi</SelectItem>
+              <SelectItem value="English" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">English</SelectItem>
+              <SelectItem value="Spanish" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Spanish</SelectItem>
+              <SelectItem value="French" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">French</SelectItem>
+              <SelectItem value="German" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">German</SelectItem>
+              <SelectItem value="Italian" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Italian</SelectItem>
+              <SelectItem value="Portuguese" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Portuguese</SelectItem>
+              <SelectItem value="Dutch" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Dutch</SelectItem>
+              <SelectItem value="Russian" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Russian</SelectItem>
+              <SelectItem value="Chinese" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Chinese</SelectItem>
+              <SelectItem value="Japanese" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Japanese</SelectItem>
+              <SelectItem value="Korean" className="text-slate-100 focus:bg-slate-700 focus:text-slate-100">Korean</SelectItem>
             </SelectContent>
           </Select>
         </div>

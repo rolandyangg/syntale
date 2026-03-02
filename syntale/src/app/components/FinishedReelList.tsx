@@ -13,7 +13,7 @@ const SHEET_ID = "1x7jPNMuqDtq1u_4Mzz2ZGyI0OkzWjQjjDLwkBDV7mLw";
 const SHEET_NAME = "Sheet1";
 
 // Toggle this to enable/disable background polling for finished reels
-const AUTO_REFRESH_ENABLED = false;
+const AUTO_REFRESH_ENABLED = true;
 
 function parseGvizJson(text: string) {
   // Google wraps JSON like: google.visualization.Query.setResponse({...});
@@ -52,9 +52,38 @@ async function fetchFinishedReels(): Promise<FinishedReel[]> {
     .filter(Boolean) as FinishedReel[];
 }
 
-export function FinishedReelList() {
+async function downloadVideo(url: string, filename: string) {
+  const res = await fetch(url, { mode: "cors" });
+  if (!res.ok) throw new Error("Failed to fetch video");
+  const blob = await res.blob();
+  const blobUrl = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = blobUrl;
+  a.download = filename || "reel.mp4";
+  a.click();
+  URL.revokeObjectURL(blobUrl);
+}
+
+type FinishedReelListProps = {
+  /** When this value changes (e.g. after form submit), reels will refresh after 3 seconds */
+  refreshAfterSubmitTrigger?: number;
+};
+
+export function FinishedReelList({ refreshAfterSubmitTrigger }: FinishedReelListProps) {
   const [reels, setReels] = useState<FinishedReel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+
+  // When form is submitted, wait 3 seconds then refresh the reels list
+  useEffect(() => {
+    if (refreshAfterSubmitTrigger == null || refreshAfterSubmitTrigger === 0) return;
+    const timeoutId = window.setTimeout(() => {
+      fetchFinishedReels()
+        .then((data) => setReels(data))
+        .catch(console.error);
+    }, 3000);
+    return () => window.clearTimeout(timeoutId);
+  }, [refreshAfterSubmitTrigger]);
 
   useEffect(() => {
     let isMounted = true;
@@ -137,8 +166,8 @@ export function FinishedReelList() {
             key={reel.id}
             className="bg-slate-900/60 backdrop-blur-xl border-slate-800/50 shadow-xl overflow-hidden"
           >
-            <div className="p-4 space-y-3">
-              <p className="font-medium text-slate-100 line-clamp-2">{reel.title}</p>
+            <div className="p-4 space-y-3 min-w-0">
+              <p className="font-medium text-slate-100 truncate" title={reel.title}>{reel.title}</p>
               {reel.videoUrl ? (
                 <div className="space-y-3">
                   <div className="aspect-[9/16] w-32 sm:w-40 md:w-48 mx-auto overflow-hidden rounded-lg bg-black/40 flex items-center justify-center">
@@ -149,12 +178,31 @@ export function FinishedReelList() {
                     />
                   </div>
                   <Button
-                    asChild
+                    type="button"
                     className="w-full bg-purple-600 hover:bg-purple-500 text-white"
+                    disabled={downloadingId === reel.id}
+                    onClick={async () => {
+                      if (!reel.videoUrl) return;
+                      setDownloadingId(reel.id);
+                      try {
+                        const safeName = reel.title.replace(/[^a-zA-Z0-9-_]/g, "_").slice(0, 80);
+                        await downloadVideo(reel.videoUrl, `${safeName || "reel"}.mp4`);
+                      } catch (err) {
+                        console.error("Download failed", err);
+                        window.open(reel.videoUrl, "_blank", "noopener,noreferrer");
+                      } finally {
+                        setDownloadingId(null);
+                      }
+                    }}
                   >
-                    <a href={reel.videoUrl} download target="_blank" rel="noopener noreferrer">
-                      Download Reel
-                    </a>
+                    {downloadingId === reel.id ? (
+                      <>
+                        <span className="mr-2 h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Downloading…
+                      </>
+                    ) : (
+                      "Download Reel"
+                    )}
                   </Button>
                 </div>
               ) : (

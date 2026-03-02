@@ -7,10 +7,12 @@ import { Sparkles } from "lucide-react";
 export default function App() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [userEmail, setUserEmail] = useState("");
+  const [reelRefreshTrigger, setReelRefreshTrigger] = useState(0);
 
   const handleSubmit = (email: string) => {
     setUserEmail(email);
     setIsSubmitted(true);
+    setReelRefreshTrigger((t) => t + 1);
   };
 
   const handleCreateAnother = () => {
@@ -56,7 +58,7 @@ export default function App() {
                 <SuccessMessage email={userEmail} onCreateAnother={handleCreateAnother} />
               )}
             </div>
-            <FinishedReelList />
+            <FinishedReelList refreshAfterSubmitTrigger={reelRefreshTrigger} />
           </div>
         </main>
 
