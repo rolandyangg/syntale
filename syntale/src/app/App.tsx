@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StoryForm } from "./components/StoryForm";
 import { SuccessMessage } from "./components/SuccessMessage";
 import { FinishedReelList } from "./components/FinishedReelList";
-import { Sparkles } from "lucide-react";
+import { BookOpen } from "lucide-react";
 
 export default function App() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -35,7 +35,7 @@ export default function App() {
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center justify-center gap-3">
               <div className="relative">
-                <Sparkles className="w-8 h-8 text-purple-400" />
+                <BookOpen className="w-8 h-8 text-purple-400" />
                 <div className="absolute inset-0 blur-xl bg-purple-500/50" />
               </div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
